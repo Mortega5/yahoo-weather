@@ -10,7 +10,7 @@
     "polymer",
     "seed",
     "weather",
-    "yahoo-weather-maps",
+    "yahoo-weather",
     "web-components"
   ],
   "main": "yahoo-weather.html",
