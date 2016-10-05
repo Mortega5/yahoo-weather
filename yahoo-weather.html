@@ -228,8 +228,8 @@ Polymer({
       computed: '_generateQuery(city, unit)'
     },
     /**
-      * Units for temperature and wind F if imperial units or C if metric system
-      */
+    * Units for temperature and wind F if imperial units or C if metric system
+    */
     unit: {
       type:String,
       value:'c'
@@ -352,11 +352,12 @@ Polymer({
       return ''
     }
     return 'select * from weather.forecast where woeid in (select woeid from geo.places(1) where text="' + city + '")'
-            + 'AND u="' + unit+ '"';
+    + 'AND u="' + unit+ '"';
   },
   _weatherApiResponse: function(e) {
     if (e.error){
       console.error(e.error.description);
+      this.fire('yahoo-weather-error',{e});
     } else {
       this._loading = false;
       // TODO detectar errores
@@ -419,7 +420,6 @@ Polymer({
       for (var i=1;i<this.data.length && i<5;i++){
         this.push('next_days', this.data[i]);
       }
-      this.fire('yahoo-weather-load', {weather: this.data});
     }
   },
   /**
@@ -436,6 +436,7 @@ Polymer({
   _yqlQuery: function(query,callback){
     if (!query || !callback){
       console.error('Query and callback is required');
+      this.fire('yahoo-weather-error',{error:'Query and callback is required'});
     } else {
       var script = document.createElement('script');
       var encodedQuery = encodeURIComponent(query.toLowerCase());
@@ -443,6 +444,7 @@ Polymer({
         callback(json);
         document.body.removeChild(script);
         window.yahoo_callback_wrapper = undefined;
+        this.fire('yahoo-weather-ready',json);
       }
       script.src = 'https://query.yahooapis.com/v1/public/yql?q='
       + encodedQuery + '&format=json&callback=yahoo_callback_wrapper';
@@ -450,13 +452,24 @@ Polymer({
     }
   },
   /**
-    * Request weather info
-    */
+  * Request weather info
+  */
   requestData: function(){
     this._loading = true;
     this._yqlQuery(this._query,this._weatherApiResponse.bind(this));
   }
-
+  /**
+  * Fired when a weather data are ready
+  *
+  * @event yahoo-weather-ready
+  * @event yahoo-weather-ready
+  */
+  /**
+  * Fired when API return an error
+  *
+  * @event yahoo-weather-error
+  * @event yahoo-weather-error
+  */
 });
 </script>
 </dom-module>
