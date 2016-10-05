@@ -1,7 +1,7 @@
 # &lt;yahoo-weather&gt;
 
 > A [Polymer](http://www.polymer-project.org/) element for getting and displaying the current weather at a given location.
-> Uses [openweathermap](http://openweathermap.org/API) and [Weather Icons](https://github.com/erikflowers/weather-icons/).
+> Uses [Yahoo Query Language](https://developer.yahoo.com/yql/) and [Weather Icons](https://github.com/erikflowers/weather-icons/).
 
 ## Demo
 
