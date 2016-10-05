@@ -445,7 +445,7 @@ Polymer({
         document.body.removeChild(script);
         window.yahoo_callback_wrapper = undefined;
         this.fire('yahoo-weather-ready',json);
-      }
+      }.bind(this)
       script.src = 'https://query.yahooapis.com/v1/public/yql?q='
       + encodedQuery + '&format=json&callback=yahoo_callback_wrapper';
       document.body.appendChild(script)
